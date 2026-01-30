@@ -13,62 +13,120 @@
 
     button {
       padding: 10px 20px;
-      margin: 10px;
+      margin: 8px;
       font-size: 16px;
+    }
+
+    .nav {
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
 
-  <h1>ZITA Farm 🌱</h1>
+  <h1>ZITA Prototype 🌱⛏️</h1>
 
-  <p id="status">Your field is empty.</p>
+  <div class="nav">
+    <button onclick="showFarm()">🌱 Farm</button>
+    <button onclick="showMine()">⛏️ Mine</button>
+  </div>
 
-  <button id="plantBtn">Plant</button>
-  <button id="harvestBtn" disabled>Harvest</button>
+  <!-- FARM -->
+  <div id="farm">
+    <p id="farmStatus">Your field is empty.</p>
 
-  <p>Crops: <span id="crops">0</span></p>
+    <button id="plantBtn">Plant</button>
+    <button id="harvestBtn" disabled>Harvest</button>
+
+    <p>Crops: <span id="crops">0</span></p>
+  </div>
+
+  <!-- MINE -->
+  <div id="mine" style="display:none;">
+    <p id="mineStatus">Mine is idle.</p>
+
+    <button id="mineBtn">Mine</button>
+
+    <p>Metals: <span id="metals">0</span></p>
+  </div>
 
   <script>
-    // Load saved crops
+    /* -------- LOAD SAVED DATA -------- */
     let crops = localStorage.getItem("crops")
       ? parseInt(localStorage.getItem("crops"))
       : 0;
 
+    let metals = localStorage.getItem("metals")
+      ? parseInt(localStorage.getItem("metals"))
+      : 0;
+
     let growing = false;
 
-    const status = document.getElementById("status");
+    /* -------- ELEMENTS -------- */
+    const farmDiv = document.getElementById("farm");
+    const mineDiv = document.getElementById("mine");
+
+    const farmStatus = document.getElementById("farmStatus");
     const plantBtn = document.getElementById("plantBtn");
     const harvestBtn = document.getElementById("harvestBtn");
     const cropsEl = document.getElementById("crops");
 
-    // Show saved crops on load
-    cropsEl.textContent = crops;
+    const mineStatus = document.getElementById("mineStatus");
+    const mineBtn = document.getElementById("mineBtn");
+    const metalsEl = document.getElementById("metals");
 
+    cropsEl.textContent = crops;
+    metalsEl.textContent = metals;
+
+    /* -------- NAVIGATION -------- */
+    function showFarm() {
+      farmDiv.style.display = "block";
+      mineDiv.style.display = "none";
+    }
+
+    function showMine() {
+      farmDiv.style.display = "none";
+      mineDiv.style.display = "block";
+    }
+
+    /* -------- FARM LOGIC -------- */
     plantBtn.onclick = () => {
       if (growing) return;
 
       growing = true;
-      status.textContent = "Growing... 🌱";
+      farmStatus.textContent = "Growing... 🌱";
       plantBtn.disabled = true;
 
       setTimeout(() => {
-        status.textContent = "Ready to harvest 🌾";
+        farmStatus.textContent = "Ready to harvest 🌾";
         harvestBtn.disabled = false;
-      }, 5000); // 5 seconds grow time
+      }, 5000);
     };
 
     harvestBtn.onclick = () => {
       crops += 1;
       cropsEl.textContent = crops;
-
-      // Save progress
       localStorage.setItem("crops", crops);
 
       growing = false;
-      status.textContent = "Your field is empty.";
+      farmStatus.textContent = "Your field is empty.";
       plantBtn.disabled = false;
       harvestBtn.disabled = true;
+    };
+
+    /* -------- MINE LOGIC -------- */
+    mineBtn.onclick = () => {
+      mineStatus.textContent = "Mining... ⛏️";
+      mineBtn.disabled = true;
+
+      setTimeout(() => {
+        metals += 1;
+        metalsEl.textContent = metals;
+        localStorage.setItem("metals", metals);
+
+        mineStatus.textContent = "Mine is idle.";
+        mineBtn.disabled = false;
+      }, 6000);
     };
   </script>
 
