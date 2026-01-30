@@ -15,10 +15,44 @@
       padding: 10px 20px;
       margin: 8px;
       font-size: 16px;
+      cursor: pointer;
     }
 
     .nav {
       margin-bottom: 20px;
+    }
+
+    /* Animations */
+    .pulse {
+      animation: pulse 1s infinite;
+    }
+
+    .bounce {
+      animation: bounce 0.6s;
+    }
+
+    .shake {
+      animation: shake 0.4s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(3deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-3deg); }
+      100% { transform: rotate(0deg); }
     }
   </style>
 </head>
@@ -38,20 +72,20 @@
     <button id="plantBtn">Plant</button>
     <button id="harvestBtn" disabled>Harvest</button>
 
-    <p>Crops: <span id="crops">0</span></p>
+    <p>🌾 Crops: <span id="crops">0</span></p>
   </div>
 
   <!-- MINE -->
   <div id="mine" style="display:none;">
     <p id="mineStatus">Mine is idle.</p>
 
-    <button id="mineBtn">Mine</button>
+    <button id="mineBtn">⛏️ Mine</button>
 
-    <p>Metals: <span id="metals">0</span></p>
+    <p>🪨 Metals: <span id="metals">0</span></p>
   </div>
 
   <script>
-    /* -------- LOAD SAVED DATA -------- */
+    // Load saved data
     let crops = localStorage.getItem("crops")
       ? parseInt(localStorage.getItem("crops"))
       : 0;
@@ -62,7 +96,6 @@
 
     let growing = false;
 
-    /* -------- ELEMENTS -------- */
     const farmDiv = document.getElementById("farm");
     const mineDiv = document.getElementById("mine");
 
@@ -78,7 +111,6 @@
     cropsEl.textContent = crops;
     metalsEl.textContent = metals;
 
-    /* -------- NAVIGATION -------- */
     function showFarm() {
       farmDiv.style.display = "block";
       mineDiv.style.display = "none";
@@ -89,16 +121,18 @@
       mineDiv.style.display = "block";
     }
 
-    /* -------- FARM LOGIC -------- */
+    // FARM LOGIC
     plantBtn.onclick = () => {
       if (growing) return;
 
       growing = true;
       farmStatus.textContent = "Growing... 🌱";
+      farmStatus.className = "pulse";
       plantBtn.disabled = true;
 
       setTimeout(() => {
         farmStatus.textContent = "Ready to harvest 🌾";
+        farmStatus.className = "";
         harvestBtn.disabled = false;
       }, 5000);
     };
@@ -106,7 +140,10 @@
     harvestBtn.onclick = () => {
       crops += 1;
       cropsEl.textContent = crops;
+      cropsEl.className = "bounce";
       localStorage.setItem("crops", crops);
+
+      setTimeout(() => cropsEl.className = "", 600);
 
       growing = false;
       farmStatus.textContent = "Your field is empty.";
@@ -114,18 +151,25 @@
       harvestBtn.disabled = true;
     };
 
-    /* -------- MINE LOGIC -------- */
+    // MINE LOGIC
     mineBtn.onclick = () => {
       mineStatus.textContent = "Mining... ⛏️";
+      mineStatus.className = "pulse";
+      mineBtn.className = "shake";
       mineBtn.disabled = true;
 
       setTimeout(() => {
         metals += 1;
         metalsEl.textContent = metals;
+        metalsEl.className = "bounce";
         localStorage.setItem("metals", metals);
 
         mineStatus.textContent = "Mine is idle.";
+        mineStatus.className = "";
+        mineBtn.className = "";
         mineBtn.disabled = false;
+
+        setTimeout(() => metalsEl.className = "", 600);
       }, 6000);
     };
   </script>
