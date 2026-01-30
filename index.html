@@ -30,7 +30,9 @@
   <p>Crops: <span id="crops">0</span></p>
 
   <script>
-    let crops = 0;
+    let crops = let crops = localStorage.getItem("crops")
+  ? parseInt(localStorage.getItem("crops"))
+  : 0;
     let growing = false;
 
     const status = document.getElementById("status");
