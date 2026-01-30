@@ -6,25 +6,37 @@
 
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #f4f7f9, #e8eef3);
       margin: 0;
-      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f2f4f7;
       text-align: center;
     }
 
-    h1 {
-      margin-bottom: 10px;
+    /* HERO WITH IMAGE */
+    .hero {
+      background:
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url("IMG_5143.jpeg");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 60px 20px;
     }
 
-    .subtitle {
-      color: #555;
-      margin-bottom: 25px;
+    .hero h1 {
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      margin-top: 10px;
       font-size: 14px;
+      opacity: 0.9;
     }
 
     .nav {
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
 
     button {
@@ -46,7 +58,7 @@
     .card {
       background: white;
       max-width: 360px;
-      margin: 0 auto;
+      margin: 20px auto;
       padding: 20px;
       border-radius: 14px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.08);
@@ -66,9 +78,13 @@
 </head>
 <body>
 
-  <h1>ZITA</h1>
-  <div class="subtitle">Gameplay Prototype – Early Build</div>
+  <!-- HERO -->
+  <div class="hero">
+    <h1>ZITA</h1>
+    <p>Gameplay Prototype – Early Build</p>
+  </div>
 
+  <!-- NAV -->
   <div class="nav">
     <button onclick="showFarm()">🌱 Farm</button>
     <button onclick="showMine()">⛏️ Mine</button>
@@ -98,6 +114,7 @@
   </div>
 
   <script>
+    /* LOAD SAVED DATA */
     let crops = localStorage.getItem("crops")
       ? parseInt(localStorage.getItem("crops"))
       : 0;
