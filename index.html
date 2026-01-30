@@ -3,12 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <title>ZITA Farm Prototype</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>ZITA Farm Prototype 🌱</h1>
+  <h1>ZITA Farm 🌱</h1>
 
-  <p>If you can see this page, the prototype is live.</p>
+  <p id="status">Your field is empty.</p>
+
+  <button id="plantBtn">Plant</button>
+  <button id="harvestBtn" disabled>Harvest</button>
+
+  <p>Crops: <span id="crops">0</span></p>
+
+  <script>
+    let crops = 0;
+    let growing = false;
+
+    const status = document.getElementById("status");
+    const plantBtn = document.getElementById("plantBtn");
+    const harvestBtn = document.getElementById("harvestBtn");
+    const cropsEl = document.getElementById("crops");
+
+    plantBtn.onclick = () => {
+      if (growing) return;
+
+      growing = true;
+      status.textContent = "Growing... 🌱";
+      plantBtn.disabled = true;
+
+      setTimeout(() => {
+        status.textContent = "Ready to harvest 🌾";
+        harvestBtn.disabled = false;
+      }, 5000); // 5 seconds grow time
+    };
+
+    harvestBtn.onclick = () => {
+      crops += 1;
+      cropsEl.textContent = crops;
+
+      growing = false;
+      status.textContent = "Your field is empty.";
+      plantBtn.disabled = false;
+      harvestBtn.disabled = true;
+    };
+  </script>
 
 </body>
 </html>
