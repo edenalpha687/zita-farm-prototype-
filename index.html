@@ -30,15 +30,20 @@
   <p>Crops: <span id="crops">0</span></p>
 
   <script>
-    let crops = let crops = localStorage.getItem("crops")
-  ? parseInt(localStorage.getItem("crops"))
-  : 0;
+    // Load saved crops
+    let crops = localStorage.getItem("crops")
+      ? parseInt(localStorage.getItem("crops"))
+      : 0;
+
     let growing = false;
 
     const status = document.getElementById("status");
     const plantBtn = document.getElementById("plantBtn");
     const harvestBtn = document.getElementById("harvestBtn");
     const cropsEl = document.getElementById("crops");
+
+    // Show saved crops on load
+    cropsEl.textContent = crops;
 
     plantBtn.onclick = () => {
       if (growing) return;
@@ -56,6 +61,9 @@
     harvestBtn.onclick = () => {
       crops += 1;
       cropsEl.textContent = crops;
+
+      // Save progress
+      localStorage.setItem("crops", crops);
 
       growing = false;
       status.textContent = "Your field is empty.";
